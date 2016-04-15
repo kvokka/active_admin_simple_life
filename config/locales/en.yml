@@ -1,0 +1,4 @@
+en:
+  boolean:
+    active: 'Active'
+    not_active: 'Not active'
