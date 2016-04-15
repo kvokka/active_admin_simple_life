@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 module ActiveAdminSimpleLife
   module SimpleElements
-    def index_for_main_fields(klass)
+    def index_for_main_fields(klass, options={})
+      max_length = options[:max_length]
       index download_links: false do
         selectable_column
         id_column
@@ -10,7 +11,7 @@ module ActiveAdminSimpleLife
             field_value = current.send(symbol.cut_id)
             case field_value
             when String
-              truncate_field field_value
+              truncate_field field_value, max_length
             when ::ActiveSupport::TimeWithZone, Time, Date
               I18n.l field_value, format: :long
             when TrueClass
@@ -18,7 +19,7 @@ module ActiveAdminSimpleLife
             when FalseClass
               span_false
             else
-              link_to truncate_field(field_value), send(fetch_path(field_value), field_value.id)
+              link_to truncate_field(field_value, max_length), send(fetch_path(field_value), field_value.id)
             end
           end
         end
@@ -60,9 +61,9 @@ module ActiveAdminSimpleLife
 
     private
 
-      # TODO: move length to var
-      def truncate_field(field)
-        truncate(field.to_s, length: 50)
+      def truncate_field(field, max_length = 50)
+        length = max_length || 50
+        truncate(field.to_s, length: max_length)
       end
 
       def fetch_path(field)

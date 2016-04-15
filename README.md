@@ -43,13 +43,14 @@ end
 `simple_menu_for KlassName, [options]` which will make all dirty work, and just 
 give you simple menu, with only `main_fields` and `filters` in 1 line.
 method takes options like:
- * `priority` = `ActiveAdmin` proxy menu `priority`
- * `parent` = `ActiveAdmin` proxy menu `parent`
- * `[permitted_params] = addition for strong params (by default provides only 
+ * `:priority` = `ActiveAdmin` proxy menu `priority`
+ * `:parent` = `ActiveAdmin` proxy menu `parent`
+ * `:permitted_params` = addition for strong params (by default provides only 
  `main_fields`)
+ * `:max_length` = max column length
 
 Parts of `simple_menu_for` may be used for other purposes with:
-* `index_for_main_fields klass`
+* `index_for_main_fields klass, options`, where options is `:max_length`
 * `filter_for_main_fields klass`
 * `form_for_main_fields klass`
 
