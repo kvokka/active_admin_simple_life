@@ -56,6 +56,13 @@ Parts of `simple_menu_for` may be used for other purposes with:
 Other feature is simple menu with 1 single nested klass. For it I made
  * `nested_form_for_main_fields klass, nested_klass`
 
+###Goodies
+
+Added generator with simple settings model for future use. I find it reusable, 
+so, you may like it. For installation run 
+
+`rails g active_admin_simple_life:simple_config`
+
 ###I18n
 
 For boolean data only
