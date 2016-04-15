@@ -21,8 +21,8 @@ ActiveAdmin.setup do |config|
   # your settings
 ```
 
-I used 2 includes, be course `simple_menu_for` method must be in main namespace,
-so it is not a bug ;)
+I had to include `simple_menu_for` method bacause it must be in the main 
+namespace, so it is not a bug ;)
 
 ###Usage
 
@@ -41,7 +41,7 @@ end
 ###Methods
 
 `simple_menu_for KlassName, [options]` which will make all dirty work, and just 
-jive you simple menu, with only `main_fields` and `filters` in 1 line.
+give you simple menu, with only `main_fields` and `filters` in 1 line.
 method takes options like:
  * `priority` = `ActiveAdmin` proxy menu `priority`
  * `parent` = `ActiveAdmin` proxy menu `parent`
