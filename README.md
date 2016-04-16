@@ -32,7 +32,7 @@ where you provide columns, which you would like to manage. Example:
 ```
 class Foo < ActiveRecord::Base
 ...
-  def self.mail_fields
+  def self.main_fields
     [:title, :price, :sale_date]
   end
 end
