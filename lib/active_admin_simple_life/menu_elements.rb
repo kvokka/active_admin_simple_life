@@ -63,7 +63,7 @@ module ActiveAdminSimpleLife
 
       def truncate_field(field, max_length = 50)
         length = max_length || 50
-        truncate(field.to_s, length: max_length)
+        truncate(field.to_s, length: length)
       end
 
       def fetch_path(field)
