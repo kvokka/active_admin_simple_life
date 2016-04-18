@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 module ActiveAdminSimpleLife
   module SimpleElements
-    def index_for_main_fields(klass, options={})
+    def index_for_main_fields(klass, options = {})
       max_length = options[:max_length]
       index download_links: false do
         selectable_column
@@ -10,8 +10,9 @@ module ActiveAdminSimpleLife
           column(I18n.t("activerecord.attributes.#{klass.to_s.underscore}.#{symbol}"), sortable: symbol) do |current|
             field_value = current.send(symbol.cut_id)
             case field_value
-            when String
-              truncate_field field_value, max_length
+            when ActiveRecord::Base
+              link_to truncate_field(field_value, max_length),
+                      send(fetch_path(field_value), field_value.id)
             when ::ActiveSupport::TimeWithZone, Time, Date
               I18n.l field_value, format: :long
             when TrueClass
@@ -19,7 +20,7 @@ module ActiveAdminSimpleLife
             when FalseClass
               span_false
             else
-              link_to truncate_field(field_value, max_length), send(fetch_path(field_value), field_value.id)
+              truncate_field field_value.to_s, max_length
             end
           end
         end
