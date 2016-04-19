@@ -68,7 +68,7 @@ module ActiveAdminSimpleLife
       end
 
       def fetch_path(field)
-        "admin_#{field.class.to_s.underscore}_path"
+        "edit_admin_#{field.class.to_s.underscore}_path"
       end
 
       def span_true
