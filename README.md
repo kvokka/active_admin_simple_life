@@ -64,6 +64,8 @@ so, you may like it. For installation run
 
 `rails g active_admin_simple_life:simple_config`
 
+ * For :gender field in filers provided 'male' and 'female' names instead of yes/no
+
 ###I18n
 
 For boolean data only

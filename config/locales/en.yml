@@ -2,3 +2,7 @@ en:
   boolean:
     active: 'Active'
     not_active: 'Not active'
+  active_admin: 
+    genders:
+      male: 'Man'
+      female: 'Woman'

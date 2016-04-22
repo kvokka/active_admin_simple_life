@@ -2,3 +2,7 @@ ru:
   boolean:
     active: 'Да'
     not_active: 'Нет'
+  active_admin:
+    genders:
+      male: 'Мужчина'
+      female: 'Женщина'

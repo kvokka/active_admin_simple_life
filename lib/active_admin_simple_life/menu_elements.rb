@@ -28,8 +28,15 @@ module ActiveAdminSimpleLife
       end
     end
 
+    # it check only for gender field for now
     def filter_for_main_fields(klass)
-      klass.main_fields.each { |f| filter f.cut_id }
+      klass.main_fields.each do |f|
+        if f == :gender
+          filter f.cut_id, collection: genders
+        else
+          filter f.cut_id
+        end
+      end
     end
 
     def form_for_main_fields(klass, &block)
@@ -77,6 +84,11 @@ module ActiveAdminSimpleLife
 
       def span_false
         Arbre::Context.new { span(class: "status_tag no") { I18n.t "boolean.disactive" } }
+      end
+
+      def genders
+        [[I18n.t("active_admin.genders.male"), true],
+         [I18n.t("active_admin.genders.female"), false]]
       end
   end
 end
