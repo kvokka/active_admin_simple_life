@@ -83,7 +83,7 @@ module ActiveAdminSimpleLife
       end
 
       def span_false
-        Arbre::Context.new { span(class: "status_tag no") { I18n.t "boolean.disactive" } }
+        Arbre::Context.new { span(class: "status_tag no") { I18n.t "boolean.not_active" } }
       end
 
       def genders
