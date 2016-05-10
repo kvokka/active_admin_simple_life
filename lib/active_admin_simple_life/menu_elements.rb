@@ -43,7 +43,14 @@ module ActiveAdminSimpleLife
       form do |f|
         f.semantic_errors(*f.object.errors.keys)
         f.inputs do
-          klass.main_fields.each { |ff| f.input ff.cut_id }
+          klass.main_fields.each do |ff|
+            ff_cut_id = ff.cut_id
+            if collection? ff
+              f.input ff_cut_id, as: :select, member_label: :to_s
+            else
+              f.input ff_cut_id
+            end
+          end
           f.instance_eval(&block) if block_given?
         end
         f.actions
@@ -78,12 +85,17 @@ module ActiveAdminSimpleLife
         "edit_admin_#{field.class.to_s.underscore}_path"
       end
 
+      def collection?(symbol)
+        true if symbol.to_s =~ /_id$/
+        false
+      end
+
       def span_true
         Arbre::Context.new { span(class: "status_tag yes") { I18n.t("boolean.active") } }
       end
 
       def span_false
-        Arbre::Context.new { span(class: "status_tag no") { I18n.t "boolean.not_active" } }
+        Arbre::Context.new { span(class: "status_tag no") { I18n.t "boolean.disactive" } }
       end
 
       def genders
