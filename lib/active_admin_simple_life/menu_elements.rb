@@ -86,7 +86,7 @@ module ActiveAdminSimpleLife
       end
 
       def collection?(symbol)
-        true if symbol.to_s =~ /_id$/
+        return true if symbol.to_s =~ /_id$/
         false
       end
 
