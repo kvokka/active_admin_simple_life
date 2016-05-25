@@ -11,10 +11,11 @@ module ActiveAdminSimpleLife
 
     def simple_menu_for(klass, options = {})
       ActiveAdmin.register klass do
-        menu_options = options.slice(:priority, :parent)
-        menu menu_options if menu_options.any?
-        permitted_params = options[:permitted_params]
+        permitted_params = options.delete :permitted_params
         permit_params(*(klass.main_fields + (permitted_params || [])))
+        # menu_options = options.slice(:priority, :parent, :if)
+        menu options if options.any?
+
         actions :all, except: [:show]
 
         controller.class_variable_set(:@@permitted_params, permitted_params)
