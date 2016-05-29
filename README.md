@@ -53,6 +53,7 @@ Parts of `simple_menu_for` may be used for other purposes with:
 * `index_for_main_fields klass, options`, where options are:
   1.   `:max_length` - max length of field. Integer
   2.    `:add`       - extra fields, which will be added in index. Symbol or Array
+  3.    `:position`  - extra fields starting position (from 0)
 * `filter_for_main_fields klass`
 * `form_for_main_fields klass`
 

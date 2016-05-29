@@ -3,11 +3,12 @@ module ActiveAdminSimpleLife
   module SimpleElements
     def index_for_main_fields(klass, options = {})
       max_length = options[:max_length] 
-      add_fields = [options[:add]].flatten.compact 
+      add_fields = [options[:add]].flatten.compact
+      position = options[:position]
       index download_links: false do
         selectable_column
         id_column
-        klass.main_fields.concat(add_fields).each do |symbol|
+        klass.main_fields.insert(position, *add_fields).each do |symbol|
           column(I18n.t("activerecord.attributes.#{klass.to_s.underscore}.#{symbol}"), sortable: symbol) do |current|
             field_value = current.send(symbol.cut_id)
             case field_value
