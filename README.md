@@ -11,22 +11,9 @@ put in `Gemfile`
 
 `gem 'active_admin_simple_life'`
 
-in `config/initializers/active_admin.rb` change header like this:
-
-```
-# frozen_string_literal: true
-include ActiveAdminSimpleLife
-ActiveAdmin.setup do |config|
-  include ActiveAdminSimpleLife::SimpleElements
-  # your settings
-```
-
-I had to include `simple_menu_for` method bacause it must be in the main 
-namespace, so it is not a bug ;)
-
 ###Usage
 
-For all gem methods you need to present class method(NOT scope!) `main fields`, 
+For all gem methods you need to present class method(NOT scope!) `main_fields`, 
 where you provide columns, which you would like to manage. Example:
 
 ```
@@ -40,7 +27,7 @@ end
 
 ###Methods
 
-`simple_menu_for KlassName, [options]` which will make all dirty work, and just 
+`ActiveAdminSimpleLife.for KlassName, [options]` which will make all dirty work, and just 
 give you simple menu, with only `main_fields` and `filters` in 1 line.
 method takes options like:
  * `:priority` = `ActiveAdmin` proxy menu `priority`

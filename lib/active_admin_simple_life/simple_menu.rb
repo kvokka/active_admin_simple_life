@@ -9,7 +9,8 @@ module ActiveAdminSimpleLife
     # menu_parent:string
     # permitted_params:array for some additions to main_fields permitted params
 
-    def simple_menu_for(klass, options = {})
+    # def simple_menu_for(klass, options = {})
+    def for(klass, options = {})
       ActiveAdmin.register klass do
         permitted_params = options.delete :permitted_params
         permit_params(*(klass.main_fields + (permitted_params || [])))

@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 module ActiveAdminSimpleLife
   module SimpleElements
+    ActiveAdmin.send :include, ActiveAdminSimpleLife::Extensions
+    include Extensions
     def index_for_main_fields(klass, options = {})
-      max_length = options[:max_length] 
+      max_length = options[:max_length]
       add_fields = [options[:add]].flatten.compact
       position = options[:position]
       index download_links: false do
@@ -10,7 +12,7 @@ module ActiveAdminSimpleLife
         id_column
         klass.main_fields.insert(position, *add_fields).each do |symbol|
           column(I18n.t("activerecord.attributes.#{klass.to_s.underscore}.#{symbol}"), sortable: symbol) do |current|
-            field_value = current.send(symbol.cut_id)
+            field_value = current.send(ExtensionedSymbol.new(symbol).cut_id)
             case field_value
             when ActiveRecord::Base
               link_to truncate_field(field_value, max_length),
@@ -34,9 +36,9 @@ module ActiveAdminSimpleLife
     def filter_for_main_fields(klass)
       klass.main_fields.each do |f|
         if f == :gender
-          filter f.cut_id, collection: genders
+          filter ExtensionedSymbol.new(f).cut_id, collection: genders
         else
-          filter f.cut_id
+          filter ExtensionedSymbol.new(f).cut_id
         end
       end
     end
@@ -46,11 +48,11 @@ module ActiveAdminSimpleLife
         f.semantic_errors(*f.object.errors.keys)
         f.inputs do
           klass.main_fields.each do |ff|
-            ff_cut_id = ff.cut_id
-            if collection? ff
-              f.input ff_cut_id, as: :select, member_label: :to_s
-            else
+            ff_cut_id = ExtensionedSymbol.new(ff).cut_id
+            if ff == ff_cut_id
               f.input ff_cut_id
+            else
+              f.input ff_cut_id, as: :select, member_label: :to_s
             end
           end
           f.instance_eval(&block) if block_given?
@@ -65,44 +67,11 @@ module ActiveAdminSimpleLife
         nested_table_name = nested_klass.to_s.underscore.pluralize.to_sym
         main_model_name = klass.to_s.underscore.to_sym
         form_field.has_many nested_table_name, allow_destroy: true do |form|
-          nested_klass.main_fields.map(&:cut_id).each do |nested_field|
+          nested_klass.main_fields.map { |f| ExtensionedSymbol.new(f).cut_id }.each do |nested_field|
             form.input(nested_field) unless nested_field == main_model_name
           end
         end
       end
     end
-
-    def cut_id
-      to_s.sub(/_id$/, "").to_sym
-    end
-
-    private
-
-      def truncate_field(field, max_length = 50)
-        length = max_length || 50
-        truncate(field.to_s, length: length)
-      end
-
-      def fetch_path(field)
-        "edit_admin_#{field.class.to_s.underscore}_path"
-      end
-
-      def collection?(symbol)
-        return true if symbol.to_s =~ /_id$/
-        false
-      end
-
-      def span_true
-        Arbre::Context.new { span(class: "status_tag yes") { I18n.t("boolean.active") } }
-      end
-
-      def span_false
-        Arbre::Context.new { span(class: "status_tag no") { I18n.t "boolean.not_active" } }
-      end
-
-      def genders
-        [[I18n.t("active_admin.genders.male"), true],
-         [I18n.t("active_admin.genders.female"), false]]
-      end
   end
 end
