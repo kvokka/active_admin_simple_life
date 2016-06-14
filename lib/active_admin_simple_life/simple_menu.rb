@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 module ActiveAdminSimpleLife
   module SimpleMenu
+    include Extensions
     # for proper work, model must have class method `mail_fields`, which return array of field symbols.
     # references write as is, like `foo_id`
     #
@@ -25,7 +26,7 @@ module ActiveAdminSimpleLife
         controller do
           def scoped_collection
             permitted_params = self.class.class_variable_get :@@permitted_params
-            self.class.class_variable_get(:@@klass).includes(*permitted_params.map(&:cut_id))
+            self.class.class_variable_get(:@@klass).includes(*permitted_params.map{|symbol| ExtensionedSymbol.new(symbol).cut_id})
           end
         end if permitted_params
 
