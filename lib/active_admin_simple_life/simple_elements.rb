@@ -12,6 +12,7 @@ module ActiveAdminSimpleLife
         id_column
         klass.main_fields.insert(position, *add_fields).each do |symbol|
           column(I18n.t("activerecord.attributes.#{klass.to_s.underscore}.#{symbol}"), sortable: symbol) do |current|
+            plural_symbol = symbol.to_s.pluralize  
             field_value = current.send(ExtensionedSymbol.new(symbol).cut_id)
             case field_value
             when ActiveRecord::Base
@@ -24,7 +25,11 @@ module ActiveAdminSimpleLife
             when FalseClass
               span_false
             else
-              truncate_field field_value.to_s, max_length
+              if klass.respond_to?(plural_symbol)
+                field_value && I18n.t("activerecord.attributes.#{klass.underscore}.#{plural_symbol}.#{field_value}") 
+              else
+                truncate_field field_value.to_s, max_length
+              end
             end
           end
         end
