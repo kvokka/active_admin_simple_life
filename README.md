@@ -41,11 +41,14 @@ Parts of `simple_menu_for` may be used for other purposes with:
   1.   `:max_length` - max length of field. Integer
   2.    `:add`       - extra fields, which will be added in index. Symbol or Array
   3.    `:position`  - extra fields starting position (from 0)
-* `filter_for_main_fields klass`
+* `filter_for_main_fields klass, options`
+  1. `:options` - accept Hash of options for 1 column, like `products: { hint: 'click for select'}`
 * `form_for_main_fields klass`
 
 Other feature is simple menu with 1 single nested klass. For it I made
- * `nested_form_for_main_fields klass, nested_klass`
+ * `nested_form_for_main_fields klass, nested_klass, options`
+  1. `:options` - accept Hash of options for 1 column ot nested column. Nested column example
+  `products: {comments: { label: 'Words'} }`
 
 ###Goodies
 

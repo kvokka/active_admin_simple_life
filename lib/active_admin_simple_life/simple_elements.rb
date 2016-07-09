@@ -48,16 +48,17 @@ module ActiveAdminSimpleLife
       end
     end
 
-    def form_for_main_fields(klass, &block)
+    def form_for_main_fields(klass, options={}, &block)
       form do |f|
         f.semantic_errors(*f.object.errors.keys)
         f.inputs do
           klass.main_fields.each do |ff|
             ff_cut_id = ExtensionedSymbol.new(ff).cut_id
+            current_options = options[ff] || options[ff_cut_id] || {}
             if ff == ff_cut_id
               f.input ff_cut_id
             else
-              f.input ff_cut_id, as: :select, member_label: :to_s
+              f.input ff_cut_id, {as: :select, member_label: :to_s}.merge(current_options)
             end
           end
           f.instance_eval(&block) if block_given?
@@ -67,13 +68,14 @@ module ActiveAdminSimpleLife
     end
 
     # simple nested set for 2 classes with defined main_fields
-    def nested_form_for_main_fields(klass, nested_klass)
-      form_for_main_fields(klass) do |form_field|
+    def nested_form_for_main_fields(klass, nested_klass, options={})
+      form_for_main_fields(klass,options) do |form_field|
         nested_table_name = nested_klass.to_s.underscore.pluralize.to_sym
         main_model_name = klass.to_s.underscore.to_sym
         form_field.has_many nested_table_name, allow_destroy: true do |form|
           nested_klass.main_fields.map { |f| ExtensionedSymbol.new(f).cut_id }.each do |nested_field|
-            form.input(nested_field) unless nested_field == main_model_name
+            current_options = options.fetch(nested_table_name){{}}.fetch(nested_field){{}}
+            form.input(nested_field, current_options) unless nested_field == main_model_name
           end
         end
       end
