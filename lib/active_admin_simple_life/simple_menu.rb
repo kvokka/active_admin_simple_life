@@ -11,8 +11,9 @@ module ActiveAdminSimpleLife
     # permitted_params:array for some additions to main_fields permitted params
 
     # def simple_menu_for(klass, options = {})
-    def for(klass, options = {})
+    def for(klass, options = {}, &blk)
       ActiveAdmin.register klass do
+        options = {index: {}, form: {}, filter: {}}.merge options
         permitted_params = options.delete :permitted_params
         permit_params(*(klass.main_fields + (permitted_params || [])))
         # menu_options = options.slice(:priority, :parent, :if)
@@ -30,9 +31,10 @@ module ActiveAdminSimpleLife
           end
         end if permitted_params
 
-        index_for_main_fields klass, options.fetch(:index){{}}
-        filter_for_main_fields klass, options.fetch(:filter){{}}
-        form_for_main_fields klass, options.fetch(:form){{}}
+        %i[index filter form].each do |action| 
+            send "#{action}_for_main_fields", klass, options[action] unless options[action][:skip] == true
+        end
+        instance_exec &blk if block_given?
       end
     end
   end

@@ -35,6 +35,9 @@ method takes options like:
  * `:permitted_params` = addition for strong params (by default provides only 
  `main_fields`)
  * `:max_length` = max column length
+ *  `index: {skip: true}` or `form: {skip: true}` or `filter: {skip: true}` for skipping some parts of defaults
+and of course you may provide a block to this method, which witll be executed in  AA context
+
 
 Parts of `simple_menu_for` may be used for other purposes with:
 * `index_for_main_fields klass, options`, where options are:
