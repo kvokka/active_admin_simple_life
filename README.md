@@ -42,7 +42,7 @@ Parts of `simple_menu_for` may be used for other purposes with:
   2.    `:add`       - extra fields, which will be added in index. Symbol or Array
   3.    `:position`  - extra fields starting position (from 0)
 * `filter_for_main_fields klass, options`
-  1. `:options` - accept Hash of options for 1 column, like `products: { hint: 'click for select'}`
+  1. `:options` - accept Hash of options for needed action, like `index: {products: { hint: 'click for select'}}`
 * `form_for_main_fields klass`
 
 Other feature is simple menu with 1 single nested klass. For it I made

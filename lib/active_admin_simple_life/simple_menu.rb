@@ -30,9 +30,9 @@ module ActiveAdminSimpleLife
           end
         end if permitted_params
 
-        index_for_main_fields klass, options
-        filter_for_main_fields klass
-        form_for_main_fields klass
+        index_for_main_fields klass, options[:index]
+        filter_for_main_fields klass, option[:filter]
+        form_for_main_fields klass, options[:form]
       end
     end
   end

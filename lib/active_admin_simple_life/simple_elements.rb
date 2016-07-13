@@ -38,7 +38,7 @@ module ActiveAdminSimpleLife
     end
 
     # it check only for gender field for now
-    def filter_for_main_fields(klass)
+    def filter_for_main_fields(klass, options ={})
       klass.main_fields.each do |f|
         if f == :gender
           filter ExtensionedSymbol.new(f).cut_id, collection: genders
